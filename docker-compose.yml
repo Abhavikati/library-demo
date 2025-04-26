@@ -1,7 +1,7 @@
 services:
-  db:
+  bookdb:
     image: postgres:latest
-    container_name: postgres_db
+    container_name: bookdb
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: mysecretpassword
@@ -10,6 +10,22 @@ services:
       - "5432:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
+#    networks:
+#      - app-network
+
+  authordb:
+    image: postgres:latest
+    container_name: authordb
+    environment:
+      POSTGRES_USER: postgres2
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: postgres2
+    ports:
+      - "5433:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data2
+#    networks:
+#      - app-network
 
   app:
     build:
@@ -19,11 +35,26 @@ services:
     ports:
       - "8080:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/postgres
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: mysecretpassword
+      BOOK_DB_URL: jdbc:postgresql://bookdb:5432/postgres
+      BOOK_DB_USERNAME: postgres
+      BOOK_DB_PASSWORD: mysecretpassword
+
+      AUTHOR_DB_URL: jdbc:postgresql://authordb:5432/postgres2
+      AUTHOR_DB_USERNAME: postgres
+      AUTHOR_DB_PASSWORD: mysecretpassword
     depends_on:
-      - db
+      - bookdb
+      - authordb
+
+
+
+#    networks:
+#      - app-network
+
 
 volumes:
   db_data:
+
+#networks:
+#  app-network:
+#    driver: bridge

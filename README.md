@@ -17,4 +17,6 @@ docker-compose up
 
 docker-compose down
 ```
-3. 
+
+docker compose down -v  
+docker compose up --build

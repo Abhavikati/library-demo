@@ -1,6 +1,8 @@
 package com.book.bookdemo.controller;
 
-import com.book.bookdemo.entity.Book;
+import com.book.bookdemo.entity.author.Author;
+import com.book.bookdemo.entity.book.Book;
+import com.book.bookdemo.service.AuthorService;
 import com.book.bookdemo.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +18,18 @@ public class BookController {
     @Autowired
     private BookService bookService;
 
+    @Autowired
+    private AuthorService authorService;
+
     // Get all books
     @GetMapping
     public List<Book> getBooks() {
         return bookService.getAllBooks();
+    }
+
+    @GetMapping("/authors")
+    public List<Author> getAuthors() {
+        return authorService.getAllAuthors();
     }
 
     // Get a specific book by id
