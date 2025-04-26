@@ -16,3 +16,6 @@ CMD ["java", "-jar", "app.jar"]
 # docker build -t lib-demo:v1 .
 # docker run -p 8080:8080 lib-demo:v1
 # docker run -p 8080:8081 lib-demo:v1
+# docker run -p 8080:8081 lib-demo:v1   # postgress
+
+# docker run -p 5432:5432 --name postgres -e POSTGRES_PASSWORD=mysecretpassword -d postgres
